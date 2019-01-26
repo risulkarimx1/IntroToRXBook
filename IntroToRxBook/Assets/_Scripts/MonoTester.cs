@@ -6,12 +6,13 @@ public class MonoTester : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        BehaviorSubject<string> subject = new BehaviorSubject<string>("a");
+        var subject = new AsyncSubject<string>();
         subject.OnNext("b");
         subject.OnNext("c");
         subject.Subscribe(value => Debug.Log(value));
         subject.OnNext("x");
         subject.OnNext("y");
+        subject.OnCompleted();
     }
 
 
