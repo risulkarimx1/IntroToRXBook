@@ -19,6 +19,7 @@ public class MonoTester : MonoBehaviour
        subject.OnNext("a");
        subject.OnNext("b");
        subject.OnNext("c");
+       subject.OnCompleted();
     }
 
         
