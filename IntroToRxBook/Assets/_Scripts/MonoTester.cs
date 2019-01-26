@@ -1,26 +1,20 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UniRx;
+﻿using UniRx;
 using UnityEngine;
 
 public class MonoTester : MonoBehaviour
 {
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-       var subject = new ReplaySubject<string>(2);
-
-       subject.OnNext($"x {Time.time}");
-        subject.OnNext($"y {Time.time}");
-        subject.OnNext($"z {Time.time}");
-        subject.OnNext($"a {Time.time}");
-       subject.Subscribe(value => Debug.Log(value));
-        subject.OnNext($"b {Time.time}");
-       subject.OnNext($"c {Time.time}");
+        BehaviorSubject<string> subject = new BehaviorSubject<string>("a");
+        subject.OnNext("b");
+        subject.OnNext("c");
+        subject.Subscribe(value => Debug.Log(value));
+        subject.OnNext("x");
+        subject.OnNext("y");
     }
 
-        
+
     //void PrintSequenceToConsole(IObservable<string> seq)
     //{
     //    seq.Subscribe(value=>Debug.Log(value));
