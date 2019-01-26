@@ -9,9 +9,12 @@ public class MonoTester : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       var subject = new ReplaySubject<string>();
-       
-       subject.OnNext($"a {Time.time}");
+       var subject = new ReplaySubject<string>(2);
+
+       subject.OnNext($"x {Time.time}");
+        subject.OnNext($"y {Time.time}");
+        subject.OnNext($"z {Time.time}");
+        subject.OnNext($"a {Time.time}");
        subject.Subscribe(value => Debug.Log(value));
         subject.OnNext($"b {Time.time}");
        subject.OnNext($"c {Time.time}");
