@@ -10,15 +10,18 @@ public class MonoTester : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
+        var range = Observable.Range(10, 15);
+        range.Subscribe(v=> Debug.Log($"{v}"));
+    }
+    /*
+     
         var naturalNumeber = Unfold(1, i => i + 1);
         Debug.Log($"first ten number");
         foreach (var number in naturalNumeber.Take(10))
         {
             Debug.Log($"{number}");
         }
-    }
-
-    private IEnumerable<T> Unfold<T>(T seed, Func<T, T> accumulator)
+     *private IEnumerable<T> Unfold<T>(T seed, Func<T, T> accumulator)
     {
         var nextValue = seed;
         while (true)
@@ -27,6 +30,9 @@ public class MonoTester : MonoBehaviour
             nextValue = accumulator(nextValue);
         }
     }
+     */
+
+
 
     /*
      *    NonBlocking_event_driven();
