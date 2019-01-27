@@ -8,11 +8,21 @@ public class MonoTester : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        var never = Observable.Never<string>();
+        var throwingObservable = Observable.Throw<string>(new Exception());
+        throwingObservable.Subscribe(v => Debug.Log(v));
+        // Equaivalent code by Subject is 
+        //var throwingSubject = new Subject<string>();
+        //throwingSubject.Subscribe(v => Debug.Log(v));
+        //throwingSubject.OnNext("a");
+        //throwingSubject.OnError(new Exception());
+
+    }
+    /*
+     *var never = Observable.Never<string>();
         never.Subscribe(v => Debug.Log($"value at time {Time.time} is {v}"));
         // equavalent code using subject is: Subject with out notification 
         var subject = new Subject<string>();
-    }
+     */
     /*
      *  var singleValue = Observable.Return<String>("value");
         singleValue.Subscribe(v => Debug.Log(v));
