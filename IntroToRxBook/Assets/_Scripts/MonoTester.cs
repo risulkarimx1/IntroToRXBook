@@ -1,17 +1,38 @@
 ﻿using System;
 using System.Threading;
+using System.Timers;
 using UniRx;
 using UnityEngine;
-
 public class MonoTester : MonoBehaviour
 {
     // Start is called before the first frame update
     private void Start()
     {
-        
+        NonBlocking_event_driven();
     }
 
-    public static IObservable<T> Empty<T>()
+    public void NonBlocking_event_driven()
+    {
+        var ob = Observable.Create<string>(
+            observer =>
+            {
+                var timer = new System.Timers.Timer();
+                timer.Interval = 1000;
+                timer.Elapsed += (s, e) => observer.OnNext("tick");
+                timer.Elapsed += OnTimerElapsed;
+                timer.Start();
+                return timer;
+            });
+        var subscription = ob.Subscribe(Console.WriteLine);
+        Console.ReadLine();
+        subscription.Dispose();
+    }
+    private void OnTimerElapsed(object sender, ElapsedEventArgs e)
+    {
+        Console.WriteLine(e.SignalTime);
+    }
+    /*
+     *public static IObservable<T> Empty<T>()
     {
         return Observable.Create<T>(
         observer=>
@@ -30,6 +51,8 @@ public class MonoTester : MonoBehaviour
             return Disposable.Empty;
         });
     }
+     */
+
     /*
      NonBlocking().Subscribe(v => Debug.Log(v));
 
