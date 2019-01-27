@@ -1,15 +1,37 @@
 ﻿using System;
+using System.Threading;
 using UniRx;
 using UnityEngine;
 
 public class MonoTester : MonoBehaviour
 {
-    
-
     // Start is called before the first frame update
     private void Start()
     {
-        var values = new Subject<int>();
+        using (new TimeIT("Outer scope"))
+        {
+            using (new TimeIT("Inner scope A"))
+            {
+                HeavyWork("A");
+            }
+
+            using (new TimeIT("Inner scope B"))
+            {
+                HeavyWork("B");
+            }
+
+            Debug.Log($"Cleaning up");
+        }
+    }
+
+    void HeavyWork(string workName)
+    {
+        Debug.Log($"doing {workName}");
+        Thread.Sleep(1000);
+    }
+
+    /*
+     * var values = new Subject<int>();
         var firstSub = values.Subscribe(value => Debug.Log($"First Sub received {value} at {Time.time}ms"));
         var second = values.Subscribe(value => Debug.Log($"Second Sub received {value} at {Time.time}ms"));
 
@@ -18,8 +40,7 @@ public class MonoTester : MonoBehaviour
         values.OnNext(2);
         firstSub.Dispose();
         values.OnNext(3);
-
-    }
+     */
 
     /*
      * var values = new Subject<int>();
