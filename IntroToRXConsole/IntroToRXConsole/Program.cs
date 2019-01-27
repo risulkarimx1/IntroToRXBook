@@ -12,7 +12,7 @@ namespace IntroToRXConsole
         static void Main(string[] args)
         {
 
-            var interval = Observable.Interval(TimeSpan.FromMilliseconds(250));
+            var interval = Observable.Interval(TimeSpan.FromSeconds(1));
             interval.Subscribe(
                 Console.WriteLine,
                 () => Console.WriteLine("completed"));
