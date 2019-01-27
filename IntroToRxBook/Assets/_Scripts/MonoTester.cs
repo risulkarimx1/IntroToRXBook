@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Timers;
 using UniRx;
@@ -8,8 +10,26 @@ public class MonoTester : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        NonBlocking_event_driven();
+        var naturalNumeber = Unfold(1, i => i + 1);
+        Debug.Log($"first ten number");
+        foreach (var number in naturalNumeber.Take(10))
+        {
+            Debug.Log($"{number}");
+        }
     }
+
+    private IEnumerable<T> Unfold<T>(T seed, Func<T, T> accumulator)
+    {
+        var nextValue = seed;
+        while (true)
+        {
+            yield return nextValue;
+            nextValue = accumulator(nextValue);
+        }
+    }
+
+    /*
+     *    NonBlocking_event_driven();
 
     public void NonBlocking_event_driven()
     {
@@ -27,6 +47,8 @@ public class MonoTester : MonoBehaviour
         Console.ReadLine();
         subscription.Dispose();
     }
+     */
+
     private void OnTimerElapsed(object sender, ElapsedEventArgs e)
     {
         Console.WriteLine(e.SignalTime);
