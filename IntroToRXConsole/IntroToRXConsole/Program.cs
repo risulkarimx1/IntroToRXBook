@@ -12,14 +12,25 @@ namespace IntroToRXConsole
         static void Main(string[] args)
         {
 
-            var interval = Observable.Interval(TimeSpan.FromSeconds(1));
-            interval.Subscribe(
+
+            var timer = Observable.Timer(TimeSpan.FromSeconds(1));
+            timer.Subscribe(
                 Console.WriteLine,
                 () => Console.WriteLine("completed"));
-            while (true)
-            {
-                
-            }
+
+            while (true) ;
         }
+
+        //Example code only
+        public static IObservable<int> Range(int start, int count)
+        {
+            var max = start + count;
+            return Observable.Generate(
+                start,
+                value => value < max,
+                value => value + 1,
+                value => value);
+        }
+
     }
 }
