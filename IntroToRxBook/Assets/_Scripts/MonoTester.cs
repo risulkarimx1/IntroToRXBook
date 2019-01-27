@@ -3,16 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Timers;
-using UniRx;
 using UnityEngine;
+using  System.Reactive.Linq;
 public class MonoTester : MonoBehaviour
 {
     // Start is called before the first frame update
     private void Start()
     {
-        var range = Observable.Range(10, 15);
-        range.Subscribe(v=> Debug.Log($"{v}"));
+
+        
+
     }
+
+    //public IObservable<int> Range(int start, int count)
+    //{
+    //    var max = start + count;
+    //    return System.Reactive.Linq.Observable.Generate(
+    //        start,
+    //        value => value < max,
+    //        value => value + 1,
+    //        value => value);
+    //}
+    /*
+     *var range = Observable.Range(10, 15);
+        range.Subscribe(v=> Debug.Log($"{v}"));
+     */
     /*
      
         var naturalNumeber = Unfold(1, i => i + 1);
