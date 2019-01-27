@@ -7,15 +7,30 @@ namespace IntroToRXConsole
     {
         private static void Main(string[] args)
         {
-
-            Interval(TimeSpan.FromSeconds(2)).Subscribe(Console.WriteLine);
+            Timer(TimeSpan.FromSeconds(1)).Subscribe(Console.WriteLine);
             while (true) ;
         }
 
-        public static IObservable<long> Interval(TimeSpan period)
+        public static IObservable<long> Timer(TimeSpan dueTime)
+        {
+            return Observable.Generate(
+                0l,
+                i=>i<1,
+                i=>i+1,
+                i=>i,
+                i=>dueTime
+                );
+        }
+        /*
+     *Interval(TimeSpan.FromSeconds(2)).Subscribe(Console.WriteLine);
+            while (true) ;
+            public static IObservable<long> Interval(TimeSpan period)
         {
             return Observable.Timer(period, period);
         }
+     */
+
+
 
         /*
      * var timer = Observable.Timer(TimeSpan.FromSeconds(1));
