@@ -8,10 +8,46 @@ public class MonoTester : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        BlockingMethod().Subscribe(v => Debug.Log(v));
+        
     }
 
-    private IObservable<string> BlockingMethod()
+    public static IObservable<T> Empty<T>()
+    {
+        return Observable.Create<T>(
+        observer=>
+        {
+            observer.OnCompleted();
+            return Disposable.Empty;
+        });
+    }
+
+    public static IObservable<T> Return<T>(T tvalue)
+    {
+        return Observable.Create<T>(ob =>
+        {
+            ob.OnNext(tvalue);
+            ob.OnCompleted();
+            return Disposable.Empty;
+        });
+    }
+    /*
+     NonBlocking().Subscribe(v => Debug.Log(v));
+
+     *private IObservable<string> NonBlocking()
+    {
+        return Observable.Create<string>(
+            (IObserver<string> observer) =>
+            {
+                observer.OnNext("a");
+                observer.OnNext("b");
+                observer.OnCompleted();
+                Thread.Sleep(1000);
+                return Disposable.Create(() => Console.WriteLine("Observer Unsubed"));
+            });
+    }
+     */
+    /*
+     *private IObservable<string> BlockingMethod()
     {
         var subject = new ReplaySubject<string>();
         subject.OnNext("a");
@@ -20,6 +56,10 @@ public class MonoTester : MonoBehaviour
         Thread.Sleep(1000);
         return subject;
     }
+     */
+
+
+
     /*
      *var throwingObservable = Observable.Throw<string>(new Exception());
         throwingObservable.Subscribe(v => Debug.Log(v));
