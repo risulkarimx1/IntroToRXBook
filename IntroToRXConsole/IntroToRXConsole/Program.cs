@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reactive.Linq;
+using System.Threading;
 
 namespace IntroToRXConsole
 {
@@ -7,11 +8,53 @@ namespace IntroToRXConsole
     {
         private static void Main(string[] args)
         {
-            Timer(TimeSpan.FromSeconds(1)).Subscribe(Console.WriteLine);
+            StartFunc();
             while (true) ;
         }
 
-        public static IObservable<long> Timer(TimeSpan dueTime)
+        static void StartFunc()
+        {
+            var start = Observable.Start(
+                () =>
+                {
+                    Console.WriteLine("Working in func");
+                    for (int i = 0; i < 10; i++)
+                    {
+                        Thread.Sleep(10);
+                        Console.Write(".");
+                    }
+                    return "Published value";
+                }
+            );
+            start.Subscribe(
+                Console.WriteLine,
+                ()=>Console.WriteLine("Action complete")
+                );
+        }
+
+        static void startAction()
+        {
+            var start = Observable.Start(() =>
+            {
+                Console.WriteLine("Working in Action");
+                for (int i = 0; i < 10; i++)
+                {
+                    Thread.Sleep(10);
+                    Console.Write(".");
+                }
+            });
+            start.Subscribe(
+                unit => Console.WriteLine($"{unit} is published"),
+                ()=> Console.WriteLine("Action completed")
+                );
+        }
+        /*
+     *
+            Timer(TimeSpan.FromSeconds(1)).Subscribe(Console.WriteLine);
+            while (true) ;
+     */
+        /*
+     *public static IObservable<long> Timer(TimeSpan dueTime)
         {
             return Observable.Generate(
                 0l,
@@ -21,6 +64,7 @@ namespace IntroToRXConsole
                 i=>dueTime
                 );
         }
+     */
         /*
      *Interval(TimeSpan.FromSeconds(2)).Subscribe(Console.WriteLine);
             while (true) ;
