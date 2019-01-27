@@ -10,6 +10,19 @@ public class MonoTester : MonoBehaviour
     private void Start()
     {
         var values = new Subject<int>();
+        var firstSub = values.Subscribe(value => Debug.Log($"First Sub received {value} at {Time.time}ms"));
+        var second = values.Subscribe(value => Debug.Log($"Second Sub received {value} at {Time.time}ms"));
+
+        values.OnNext(0);
+        values.OnNext(1);
+        values.OnNext(2);
+        firstSub.Dispose();
+        values.OnNext(3);
+
+    }
+
+    /*
+     * var values = new Subject<int>();
         try
         {
             values.Subscribe(
@@ -23,7 +36,8 @@ public class MonoTester : MonoBehaviour
         }
         values.OnNext(0);
         values.OnError(new Exception("Dummy exception"));
-    }
+     */
+
     //var subject = new AsyncSubject<string>();
     //subject.OnNext("b");
     //subject.OnNext("c");
