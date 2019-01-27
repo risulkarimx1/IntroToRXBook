@@ -8,27 +8,33 @@ public class MonoTester : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        using (new TimeIT("Outer scope"))
-        {
-            using (new TimeIT("Inner scope A"))
-            {
-                HeavyWork("A");
-            }
-
-            using (new TimeIT("Inner scope B"))
-            {
-                HeavyWork("B");
-            }
-
-            Debug.Log($"Cleaning up");
-        }
+        var singleValue = Observable.Return<String>("value");
+        singleValue.Subscribe(v => Debug.Log(v));
+        // this could also be simulated with ReplaySubject
+        //var subject = new ReplaySubject<string>();
+        //subject.OnNext("value");
+        //subject.OnCompleted();
     }
 
-    void HeavyWork(string workName)
+    /*void HeavyWork(string workName)
     {
         Debug.Log($"doing {workName}");
         Thread.Sleep(1000);
-    }
+    }*/
+    /*using (new TimeIT("Outer scope"))
+    {
+        using (new TimeIT("Inner scope A"))
+        {
+            HeavyWork("A");
+        }
+
+        using (new TimeIT("Inner scope B"))
+        {
+            HeavyWork("B");
+        }
+
+        Debug.Log($"Cleaning up");
+    }*/
 
     /*
      * var values = new Subject<int>();
